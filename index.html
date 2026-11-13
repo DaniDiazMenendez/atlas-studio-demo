@@ -97,6 +97,13 @@ h1{font-size:24px;margin:0 0 4px}h2{font-size:15px;margin:0 0 12px}
 .url{flex:1;background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px}
 .tabs{display:flex;gap:4px}.tabs button{border:0;background:transparent;padding:5px 10px;border-radius:6px;cursor:pointer;color:var(--mute);font-weight:600;font-size:12px}.tabs button.on{background:#e0efff;color:var(--blue)}
 .app{flex:1;overflow:auto;padding:16px;background:#fff}
+.example-form{max-width:560px;display:grid;gap:12px;margin-bottom:18px}
+.example-form label{display:grid;gap:5px;font-weight:600}
+.example-form input,.example-form textarea,.example-form select{width:100%;min-width:0;border:1px solid #94a3b8;border-radius:8px;padding:9px;background:#fff;color:var(--ink)}
+.example-form textarea{min-height:80px;resize:vertical}
+.example-form .btn{justify-self:start}
+.example-photo{max-width:100%;max-height:180px;object-fit:contain}
+.example-notice{color:var(--mute);font-size:12px;line-height:1.5;margin:10px 0}
 .app .blk{animation:pop .5s}
 .apph{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#0b3a5e;color:#fff;border-radius:10px;margin-bottom:12px}
 .kp4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
@@ -173,10 +180,12 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
     <p>De la idea a una solución corporativa: experimenta con desarrollo asistido por IA y un camino gobernado hacia producción. Esta demo simula la creación de un entorno con datos de prueba y controles propuestos.</p>
     <div class="ask"><input id="idea" value="Un tablero para seguir el consumo de combustible por viaje y detectar desvíos"><button class="btn" id="go">Crear prototipo</button></div>
     <div class="chips" id="ideas">
-      <button>Asistente que responda dudas sobre procedimientos a bordo</button>
-      <button>App para registrar inspecciones con foto desde el móvil</button>
-      <button>Alertas de vencimiento de certificados de tripulación</button>
+      <button data-scenario="fuel">Tablero de consumo de combustible por viaje</button>
+      <button data-scenario="assistant">Asistente que responda dudas sobre procedimientos a bordo</button>
+      <button data-scenario="inspections">App para registrar inspecciones con foto desde el móvil</button>
+      <button data-scenario="certificates">Alertas de vencimiento de certificados de tripulación</button>
     </div>
+    <p style="font-size:12px;margin:10px 0 0">Cuatro ejemplos preparados, cada uno con su propia vista previa. La demo no genera aplicaciones arbitrarias.</p>
   </div>
     <div class="card" style="margin-bottom:18px">
       <h2>ATLAS es el primer caso, no toda la plataforma</h2>
@@ -335,7 +344,7 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
     </div>
     <div class="right">
       <div class="card preview">
-        <div class="pvbar"><div class="dots"><i></i><i></i><i></i></div><div class="url">combustible.example.invalid · vista simulada · sin autenticación real</div>
+        <div class="pvbar"><div class="dots"><i></i><i></i><i></i></div><div class="url" id="previewUrl">combustible.example.invalid · vista simulada · sin autenticación real</div>
           <div class="tabs" id="ptabs"><button class="on" data-t="app">Vista previa</button><button data-t="code">Código</button><button data-t="arch">Arquitectura</button></div></div>
         <div class="app" id="app"></div>
       </div>
@@ -447,10 +456,75 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const toast=t=>{const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove("on"),2600)};
 const NAMES={home:"Inicio",proposal:"Propuesta y modelo",ws:"Mi espacio de trabajo",grad:"Graduación",cat:"Catálogo",gov:"Gobierno y costos"};
+const SCENARIOS={
+  fuel:{
+    title:"Consumo de combustible por viaje",slug:"combustible",icon:"⛽",template:"Web + datos",
+    idea:"Un tablero para seguir el consumo de combustible por viaje y detectar desvíos",
+    data:"PostgreSQL · viajes de prueba",analytics:"Fabric · analítica de consumo",
+    summary:"Un tablero de viajes y desvíos, con PostgreSQL para los registros y Fabric como opción analítica.",
+    architecture:["App Service · tablero de combustible","PostgreSQL · viajes y consumos","Integración autorizada hacia Fabric · mecanismo por validar","Fabric + Power BI · analítica de consumo"],
+    turns:[
+      {u:"Agrega un filtro por buque y un gráfico de consumo por viaje",a:"La vista de ejemplo incorpora un selector de buque y un gráfico de consumo.",lvl:2},
+      {u:"Marca en rojo los viajes con desvío mayor al 10%",a:"La vista marca los viajes con desvío &gt;10%. Los contadores de tests siguen siendo ilustrativos.",lvl:3},
+      {u:"Envíale un resumen semanal al jefe de flota por Teams",a:"Agregué la representación del resumen semanal en Teams. Es una simulación: no se envían mensajes.",lvl:4}
+    ]
+  },
+  inspections:{
+    title:"Inspecciones con foto desde el móvil",slug:"inspecciones",icon:"📷",template:"Formulario móvil",
+    idea:"App para registrar inspecciones con foto desde el móvil",
+    data:"PostgreSQL · registros de ejemplo",analytics:"Fabric · indicadores de inspecciones",
+    summary:"Un formulario de inspección con ubicación, observación y foto. Los registros y fotos se mantienen solo en esta pestaña.",
+    architecture:["Interfaz web responsive · inspección con foto","App Service + PostgreSQL · propuesta para registros","Almacenamiento corporativo de fotos · por validar","Fabric · analítica compartida de inspecciones"],
+    turns:[
+      {u:"Agrega estado y responsable a cada inspección",a:"Agregué estado y responsable al formulario y al listado local de inspecciones.",lvl:2},
+      {u:"Exige una foto y una observación antes de guardar",a:"El formulario exige foto y observación para las nuevas inspecciones. Las fotos no se suben a ningún servidor.",lvl:3},
+      {u:"Prepara un resumen de inspecciones para Teams",a:"La vista muestra un resumen de inspecciones para Teams, sin enviar mensajes ni crear una automatización real.",lvl:4}
+    ]
+  },
+  assistant:{
+    title:"Asistente de procedimientos a bordo",slug:"procedimientos",icon:"💬",template:"Agente de IA",
+    idea:"Asistente que responda dudas sobre procedimientos a bordo",
+    data:"Documentos ficticios · corpus local",analytics:"Evaluación de respuestas · ejemplo",
+    summary:"Un asistente con respuestas locales sobre tres procedimientos ficticios. No hay un modelo de IA ni documentos corporativos conectados.",
+    architecture:["Interfaz de consultas · respuestas locales de ejemplo","Foundry + AI Search · propuesta para recuperación de documentos","Fuentes autorizadas y evaluación de respuestas · por validar","Sin acceso real a documentos corporativos"],
+    turns:[
+      {u:"Muestra la fuente de cada respuesta",a:"La respuesta de ejemplo ahora identifica el documento ficticio que la respalda.",lvl:2},
+      {u:"Aclara cuando no hay evidencia para responder",a:"El asistente señala cuando la consulta no está cubierta por el corpus ficticio; no inventa procedimientos.",lvl:3},
+      {u:"Prepara la publicación del asistente en Teams",a:"Agregué la representación de publicación en Teams. No se despliega ningún agente ni se conecta Teams.",lvl:4}
+    ]
+  },
+  certificates:{
+    title:"Certificados de tripulación",slug:"certificados",icon:"📅",template:"Automatización",
+    idea:"Alertas de vencimiento de certificados de tripulación",
+    data:"PostgreSQL · certificados ficticios",analytics:"Fabric · seguimiento de vencimientos",
+    summary:"Un tablero de vencimientos con tripulantes identificados por códigos ficticios. Los recordatorios son una representación, no envíos reales.",
+    architecture:["App Service + PostgreSQL · certificados y fechas","Functions + Logic Apps · propuesta para recordatorios","Fabric · indicadores de cumplimiento","Autorización de datos personales y canales · por validar"],
+    turns:[
+      {u:"Filtra los certificados que vencen en los próximos 30 días",a:"Agregué un filtro funcional para los vencimientos de los próximos 30 días, usando la fecha de referencia de la demo.",lvl:2},
+      {u:"Marca en rojo los certificados vencidos",a:"Los certificados vencidos aparecen en rojo; la fecha de referencia de la demo está indicada en la vista.",lvl:3},
+      {u:"Prepara recordatorios de vencimiento por Teams",a:"La vista muestra el plan de recordatorios en Teams. No se envían notificaciones.",lvl:4}
+    ]
+  }
+};
+let activeScenario="fuel";
+function resolveScenario(idea){
+  const text=idea.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+  if(/inspeccion/.test(text))return "inspections";
+  if(/certificad/.test(text))return "certificates";
+  if(/asistente|procedimiento|agente/.test(text))return "assistant";
+  if(/combustible/.test(text))return "fuel";
+  return null;
+}
+function selectIdea(){
+  const id=resolveScenario($("#idea").value);
+  if(!id){toast("No hay una vista preparada para esa idea. Elige uno de los cuatro ejemplos disponibles.");$("#idea").focus();return false}
+  if(id!==activeScenario||$("#msgs .u")?.textContent!==$("#idea").value){activeScenario=id;resetWs()}
+  return true;
+}
 function show(v){$$(".view").forEach(e=>e.classList.toggle("on",e.id==="v-"+v));$$("#nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===v));$("#crumb").textContent=NAMES[v]}
 $$("#nav a").forEach(a=>a.addEventListener("click",()=>show(a.dataset.v)));
 $("#toProposal").addEventListener("click",()=>show("proposal"));
-$("#toBuild").addEventListener("click",()=>show("ws"));
+$("#toBuild").addEventListener("click",()=>{if(selectIdea())show("ws")});
 $$("#role button").forEach(b=>b.addEventListener("click",()=>{$$("#role button").forEach(x=>x.classList.toggle("on",x===b));
   if(b.dataset.r==="t"){$("#av").textContent="TI";$("#av").style.background="#334155";show("gov")}else{$("#av").textContent="VA";$("#av").style.background="var(--teal)";show("home")}}));
 
@@ -459,28 +533,28 @@ const STG=[["Idea","t0"],["Prototipo","t1"],["Evaluación","t2"],["Industrializa
 const PROJ=[["ATLAS · piloto","PostgreSQL para la app; Fabric para analítica. Foundry cuando se requiera IA.",3,78],["Certificados tripulación","Alertas de vencimientos y renovaciones.",2,61],["Prueba OCR facturas","Lectura automática de facturas de proveedores.",1,35],["Agenda de puertos","Calendario compartido de recaladas.",4,100]];
 $("#projs").innerHTML=PROJ.map(p=>`<div class="card pc"><span class="tag ${STG[p[2]][1]}">${STG[p[2]][0]}</span><h3>${p[0]}</h3><p>${p[1]}</p><div class="bar"><i style="width:${p[3]}%"></i></div><div class="meta"><span>Preparación para producción</span><b>${p[3]}%</b></div></div>`).join("");
 $$(".pc").forEach(e=>e.addEventListener("click",()=>show("grad")));
-const TPL=[["Web + datos","#0f6cbd","App Service · PostgreSQL"],["Agente de IA","#7c5cf2","Foundry · Teams"],["Tablero","#f2c811","Fabric · Power BI"],["Formulario móvil","#0ea5a4","Power Apps · SharePoint"],["Automatización","#f26b4f","Functions · Logic Apps"],["API de integración","#334155","API Management"]];
+const TPL=[["Web + datos","#0f6cbd","App Service · PostgreSQL"],["Agente de IA","#7c5cf2","Foundry · Teams"],["Tablero","#f2c811","Fabric · Power BI"],["Formulario móvil","#0ea5a4","Web responsive · PostgreSQL"],["Automatización","#f26b4f","Functions · Logic Apps"],["API de integración","#334155","API Management"]];
 $("#tpls").innerHTML=TPL.map(t=>`<div class="tp"><div class="ic" style="background:${t[1]}">${t[0][0]}</div><b>${t[0]}</b><small>${t[2]}</small></div>`).join("");
 $$(".tp").forEach(e=>e.addEventListener("click",()=>show("cat")));
-$$("#ideas button").forEach(b=>b.addEventListener("click",()=>{$("#idea").value=b.textContent}));
+$$("#ideas button").forEach(b=>b.addEventListener("click",()=>{$("#idea").value=SCENARIOS[b.dataset.scenario].idea;activeScenario=b.dataset.scenario;resetWs()}));
 
 /* provisioning */
-const PS=[["Entendiendo tu idea y eligiendo template","Web + datos"],["Creando repositorio y entorno de desarrollo","GitHub · Codespaces"],["Conectando identidad corporativa","Entra ID"],["Cargando datos transaccionales de prueba","PostgreSQL"],["Preparando acceso analítico de ejemplo","Fabric · datos compartidos"],["Aplicando controles y presupuesto","USD 150/mes · 30 días"],["Generando primera versión con Copilot","listo"]];
 $("#go").addEventListener("click",()=>{
+  if(!selectIdea())return;
+  const scenario=SCENARIOS[activeScenario];
+  const steps=[["Eligiendo el template del ejemplo",scenario.template],["Preparando repositorio y entorno de ejemplo","GitHub · Codespaces"],["Representando identidad corporativa","Entra ID"],["Preparando datos de prueba",scenario.data],["Representando analítica y evaluación",scenario.analytics],["Mostrando controles y presupuesto","USD 150/mes · 30 días"],["Abriendo la vista preparada",scenario.title]];
   $("#provIdea").textContent="“"+$("#idea").value+"”";
-  $("#psteps").innerHTML=PS.map(p=>`<li><i>✓</i>${p[0]}<small>${p[1]}</small></li>`).join("");
+  $("#psteps").innerHTML=steps.map(p=>`<li><i>✓</i>${p[0]}<small>${p[1]}</small></li>`).join("");
   $("#provGo").disabled=true;$("#prov").classList.add("on");
-  $$("#psteps li").forEach((li,i)=>setTimeout(()=>{li.classList.add("ok");if(i===PS.length-1)$("#provGo").disabled=false},600+i*650));
+  $$("#psteps li").forEach((li,i)=>setTimeout(()=>{li.classList.add("ok");if(i===steps.length-1)$("#provGo").disabled=false},600+i*650));
 });
 $("#provGo").addEventListener("click",()=>{$("#prov").classList.remove("on");resetWs();show("ws")});
 
 /* workspace */
-const TURNS=[
- {u:"Agrega un filtro por buque y un gráfico de consumo por viaje",a:"Listo: agregué el <b>filtro por buque</b> y un gráfico de barras. Usé el componente aprobado de gráficos del catálogo.",lvl:2},
- {u:"Marca en rojo los viajes con desvío mayor al 10%",a:"Hecho. Los viajes con desvío &gt;10% aparecen en rojo. También agregué <b>3 tests automáticos</b> para esa regla.",lvl:3},
- {u:"Envíale un resumen semanal al jefe de flota por Teams",a:"Agregué un <b>resumen semanal en Teams</b> usando el conector aprobado. Nota: esto requerirá revisión de Tecnología al graduar.",lvl:4}
-];
-let turn=0,lvl=1;
+let turn=0,lvl=1,pendingReply=0,criteriaReady=false;
+let inspectionDraft={location:"Cubierta",observation:"",photo:"",status:"Pendiente",owner:"Valeria"};
+let inspectionRecords=[],assistantQuestion="",certificateFilter=false,fuelFilter="Todos";
+const escapeHtml=value=>String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let buildMode="vibe";
 function setBuildMode(mode){
   buildMode=mode;
@@ -499,8 +573,99 @@ const GU=[["Seguridad","ok","Sin hallazgos"],["Tests","ok","12 / 12"],["Costo","
 function guard(){const g=GU.map(x=>x.slice());if(lvl>=3)g[1][2]="15 / 15";if(lvl>=4){g[2][2]="USD 26 / 150";g[4][2]="60%"}
   $("#guard").innerHTML=g.map(x=>`<div class="card g"><small>${x[0]}</small><b class="${x[1]}">${x[1]==="ok"?"●":"◐"} ${x[2]}</b></div>`).join("")}
 const ROWS=[["DEMO-001","Buque A","Puerto A → Puerto B",42.1,40.8],["DEMO-002","Buque B","Puerto B → Puerto C",57.9,51.2],["DEMO-003","Buque C","Puerto D → Puerto A",33.5,34.0],["DEMO-004","Buque A","Puerto B → Puerto A",44.0,39.6],["DEMO-005","Buque D","Puerto A → Puerto E",61.3,60.1]];
+function exampleHeader(){
+  const s=SCENARIOS[activeScenario];
+  return `<div class="apph"><b>${s.icon} ${s.title}</b><span style="margin-left:auto;font-size:12px">ejemplo</span></div>`;
+}
+function renderInspections(a){
+  a.innerHTML=exampleHeader()+`
+    <p class="example-notice">Formulario funcional de prueba. Foto y registros quedan solo en esta pestaña; se pierden al recargar o iniciar otro ejemplo.</p>
+    <form class="example-form" id="inspectionForm">
+      <label>Ubicación<input name="location" required maxlength="100" value="${escapeHtml(inspectionDraft.location)}"></label>
+      <label>Observación${lvl>=3?" · obligatoria":""}<textarea name="observation" maxlength="500" ${lvl>=3?"required":""}>${escapeHtml(inspectionDraft.observation)}</textarea></label>
+      <label>Foto${lvl>=3?" · obligatoria":""}<input name="photo" type="file" accept="image/png,image/jpeg,image/webp" capture="environment" aria-describedby="photoHelp"></label>
+      <small id="photoHelp">PNG, JPEG o WebP, máximo 5 MB. No uses imágenes confidenciales.</small>
+      ${inspectionDraft.photo?`<img class="example-photo" src="${inspectionDraft.photo}" alt="Foto seleccionada para la inspección">`:""}
+      ${lvl>=2?`<label>Estado<select name="status">${["Pendiente","Revisada"].map(v=>`<option ${inspectionDraft.status===v?"selected":""}>${v}</option>`).join("")}</select></label><label>Responsable<input name="owner" required maxlength="80" value="${escapeHtml(inspectionDraft.owner)}"></label>`:""}
+      <button class="btn" type="submit">Guardar inspección de prueba</button>
+    </form>
+    <h2>Inspecciones registradas · ${inspectionRecords.length}</h2>
+    ${inspectionRecords.length?`<table><thead><tr><th>Ubicación</th><th>Observación</th><th>Foto</th>${lvl>=2?"<th>Estado</th><th>Responsable</th>":""}</tr></thead><tbody>${inspectionRecords.map(r=>`<tr><td>${escapeHtml(r.location)}</td><td>${escapeHtml(r.observation)}</td><td>${r.photo?"Adjunta":"Sin foto"}</td>${lvl>=2?`<td>${escapeHtml(r.status)}</td><td>${escapeHtml(r.owner)}</td>`:""}</tr>`).join("")}</tbody></table>`:"<p class='example-notice'>Todavía no hay inspecciones. Completa el formulario para probar el registro.</p>"}
+    ${lvl>=4?`<p class="example-notice">Teams · resumen simulado: ${inspectionRecords.length} inspecciones registradas. No se envían mensajes.</p>`:""}`;
+  const form=$("#inspectionForm");
+  form.addEventListener("input",e=>{if(["location","observation","status","owner"].includes(e.target.name))inspectionDraft[e.target.name]=e.target.value});
+  form.elements.photo.addEventListener("change",e=>{
+    const file=e.target.files[0];
+    if(!file)return;
+    if(!["image/png","image/jpeg","image/webp"].includes(file.type)||file.size>5*1024*1024){toast("Selecciona una foto PNG, JPEG o WebP de hasta 5 MB.");e.target.value="";return}
+    const draft=inspectionDraft,reader=new FileReader();
+    reader.onerror=()=>toast("No se pudo leer la foto. Selecciona otra imagen.");
+    reader.onload=()=>{if(draft!==inspectionDraft)return;draft.photo=reader.result;if(activeScenario==="inspections"&&$("#ptabs button.on").dataset.t==="app")renderApp()};
+    reader.readAsDataURL(file);
+  });
+  form.addEventListener("submit",e=>{
+    e.preventDefault();
+    if(!form.reportValidity())return;
+    if(!inspectionDraft.location.trim()){toast("Indica la ubicación de la inspección.");return}
+    if(lvl>=3&&(!inspectionDraft.photo||!inspectionDraft.observation.trim())){toast("Adjunta una foto y escribe una observación antes de guardar.");return}
+    if(lvl>=2&&!inspectionDraft.owner.trim()){toast("Indica quién es responsable de la inspección.");return}
+    inspectionRecords.push({...inspectionDraft});
+    inspectionDraft={...inspectionDraft,observation:"",photo:""};
+    renderApp();toast("Inspección guardada solo en esta pestaña.");
+  });
+}
+const PROCEDURES=[
+  {match:/inspeccion|foto/,source:"Guía ficticia de inspecciones",answer:"En este ejemplo, registra ubicación, observación y foto de prueba en el formulario de inspección."},
+  {match:/certificad|vencimiento/,source:"Guía ficticia de certificados",answer:"En este ejemplo, revisa el tablero de certificados y sus vencimientos; los recordatorios no se envían."},
+  {match:/procedimiento|a bordo/,source:"Índice ficticio de procedimientos",answer:"El corpus de demostración contiene guías de inspecciones y certificados. No contiene instrucciones reales de navegación ni de seguridad."}
+];
+function renderAssistant(a){
+  const text=assistantQuestion.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+  const source=PROCEDURES.find(p=>p.match.test(text));
+  a.innerHTML=exampleHeader()+`
+    <p class="example-notice">Respuestas locales predefinidas sobre documentos ficticios. No hay IA conectada ni instrucciones operativas reales.</p>
+    <form class="example-form" id="procedureForm"><label>Consulta de prueba<input name="question" required maxlength="300" placeholder="¿Cómo registro una inspección con foto?" value="${escapeHtml(assistantQuestion)}"></label><button class="btn">Consultar ejemplo</button></form>
+    <div id="procedureAnswer" role="status">${assistantQuestion?`<p>${source?source.answer:"No hay evidencia en el corpus ficticio para responder esa consulta. Prueba una pregunta sobre inspecciones o certificados."}</p>${lvl>=2&&source?`<p class="example-notice">Fuente: ${source.source} · documento de ejemplo</p>`:""}`:"<p class='example-notice'>Pregunta por inspecciones o certificados para probar una respuesta.</p>"}</div>
+    ${lvl>=3?"<p class='example-notice'>Control de ejemplo: sin evidencia no se inventa una respuesta. Para una operación real, consulta procedimientos autorizados.</p>":""}
+    ${lvl>=4?"<p class='example-notice'>Teams · publicación representada, no desplegada.</p>":""}`;
+  $("#procedureForm").addEventListener("submit",e=>{e.preventDefault();const value=e.target.elements.question.value.trim();if(!value){toast("Escribe una consulta de prueba.");return}assistantQuestion=value;renderApp()});
+}
+const CERTIFICATES=[["TR-001","Competencia","2026-11-20"],["TR-002","Aptitud médica","2026-11-10"],["TR-003","Formación","2027-02-15"]];
+const REFERENCE_DATE=Date.UTC(2026,10,13);
+const daysRemaining=iso=>Math.round((Date.parse(iso+"T00:00:00Z")-REFERENCE_DATE)/86400000);
+function renderCertificates(a){
+  const rows=CERTIFICATES.filter(r=>!certificateFilter||(daysRemaining(r[2])>=0&&daysRemaining(r[2])<=30));
+  a.innerHTML=exampleHeader()+`
+    <p class="example-notice">Fecha de referencia de la demo: 13/11/2026. Tripulantes y certificados ficticios; no hay datos personales reales.</p>
+    ${lvl>=2?`<div class="filters"><button id="certificateFilter" aria-pressed="${certificateFilter}">${certificateFilter?"Mostrar todos":"Ver próximos 30 días"}</button></div>`:""}
+    <table><thead><tr><th>Tripulante</th><th>Certificado</th><th>Vencimiento</th><th>Estado</th></tr></thead><tbody>${rows.map(r=>{const days=daysRemaining(r[2]);return `<tr ${lvl>=3&&days<0?'style="color:#b91c1c;background:#fef2f2"':""}><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${days<0?"Vencido":`En ${days} días`}</td></tr>`}).join("")}</tbody></table>
+    ${lvl>=4?"<p class='example-notice'>Teams · recordatorio de ejemplo: certificados próximos a vencer. No se envían alertas.</p>":""}`;
+  const filter=$("#certificateFilter");
+  if(filter)filter.addEventListener("click",()=>{certificateFilter=!certificateFilter;renderApp()});
+}
+function scenarioCode(){
+  if(activeScenario==="inspections")return `// Contrato ilustrativo; no se ejecuta ni conecta una API
+async function registrarInspeccion({ ubicacion, observacion, fotoReferencia }) {
+  if (!ubicacion.trim()) throw new Error("Ubicación obligatoria");
+${lvl>=3?'  if (!observacion.trim() || !fotoReferencia) throw new Error("Foto y observación obligatorias");\n':""}  return api.post("/inspecciones", { ubicacion, observacion, fotoReferencia });
+}`;
+  if(activeScenario==="assistant")return `// Recuperación de documentos propuesta; no hay modelo conectado
+async function responder(pregunta) {
+  const evidencias = await buscarDocumentosAutorizados(pregunta);
+  if (!evidencias.length) return "No hay evidencia para responder";
+  return generarRespuestaConFuentes(evidencias);
+}`;
+  return `// Recordatorios propuestos; la demo no programa envíos
+function diasRestantes(vencimiento, referencia) {
+  return Math.round((Date.parse(vencimiento) - referencia) / 86400000);
+}
+${lvl>=2?'const proximos = certificados.filter(c => diasRestantes(c.fecha, referencia) >= 0 && diasRestantes(c.fecha, referencia) <= 30);':"const listado = certificados;"}
+${lvl>=4?'// Teams: requiere autorización y configuración fuera de esta demo':""}`;
+}
 function renderApp(){
   const t=$$("#ptabs button").find(b=>b.classList.contains("on")).dataset.t,a=$("#app");
+  const scenario=SCENARIOS[activeScenario];
+  if(t==="code"&&activeScenario!=="fuel"){a.innerHTML=`<pre class="code">${escapeHtml(scenarioCode())}</pre>`;return}
   if(t==="code"){a.innerHTML=`<pre class="code"><span class="c">// generado con Copilot desde el template "Web + datos"</span>
 <span class="k">export async function</span> consumoPorViaje(buque) {
   <span class="k">const</span> rows = <span class="k">await</span> db.query(<span class="s">"SELECT viaje, ruta, plan_t, real_t FROM consumo WHERE buque = $1"</span>, [buque]);
@@ -510,31 +675,54 @@ ${lvl>=3?`
 <span class="k">export const</span> esDesvio = v => v.desvio > <span class="s">0.10</span>;  <span class="c">// cubierto por 3 tests</span>`:""}${lvl>=4?`
 <span class="c">// resumen semanal → Teams (conector aprobado)</span>
 schedule(<span class="s">"lun 08:00"</span>, () => teams.post(<span class="s">"jefe-flota"</span>, resumen()));`:""}</pre>`;return}
-  if(t==="arch"){a.innerHTML=`<div class="feed blk">${["Interfaz: web app"+(lvl>=4?" + Teams":""),"App Service (sandbox) · lógica y APIs de la app","PostgreSQL · datos transaccionales de prueba","Integración autorizada hacia Fabric · mecanismo por validar","Fabric · analítica, datasets compartidos y modelos semánticos","Power BI · reportes sobre datos analíticos","API Management · APIs y acceso gobernado a integraciones","Foundry · opción para casos con IA/agentes","Entra ID · Key Vault","Infraestructura como código · GitHub Actions · revisión de código y seguridad","Tests · telemetría · monitoreo · presupuesto y expiración"].map(x=>`<div>▸ ${x}</div>`).join("")}</div><p class="note">Propuesta simulada: PostgreSQL sirve a la aplicación; Fabric sirve a la analítica y la reutilización de datos. No hay recursos desplegados ni conexiones activas. El template debe ser validado y mantenido por Tecnología.</p>`;return}
-  const dev=r=>(r[4]-r[3])/r[3];
-  const rows=ROWS.map(r=>{const d=(r[3]-r[4])/r[4],red=lvl>=3&&d>.1;return `<tr style="${red?"background:#fef2f2;color:#b91c1c;font-weight:600":""}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[4]}</td><td>${r[3]}</td><td>${(d*100).toFixed(1)}%</td></tr>`}).join("");
+  if(t==="arch"){a.innerHTML=exampleHeader()+`<div class="feed">${[...scenario.architecture,"API Management · APIs autorizadas cuando corresponda","Entra ID · Key Vault","Infraestructura como código · repositorio y CI/CD","Tests · revisión de código · seguridad · telemetría · presupuesto",...(lvl>=4?["Teams · integración representada, sin conexión"]:[])].map(x=>`<div>▸ ${x}</div>`).join("")}</div><p class="note">Template: ${scenario.template}. Propuesta simulada, sin recursos desplegados. PostgreSQL sirve a las aplicaciones transaccionales y Fabric a la analítica cuando el caso lo necesita; el asistente propone fuentes documentales autorizadas.</p>`;return}
+  if(activeScenario==="inspections"){renderInspections(a);return}
+  if(activeScenario==="assistant"){renderAssistant(a);return}
+  if(activeScenario==="certificates"){renderCertificates(a);return}
+  const visibleRows=ROWS.filter(r=>fuelFilter==="Todos"||r[1]===fuelFilter);
+  const rows=visibleRows.map(r=>{const d=(r[3]-r[4])/r[4],red=lvl>=3&&d>.1;return `<tr style="${red?"background:#fef2f2;color:#b91c1c;font-weight:600":""}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[4]}</td><td>${r[3]}</td><td>${(d*100).toFixed(1)}%</td></tr>`}).join("");
   let h=`<div class="apph blk"><b>⛽ Consumo de combustible</b><span style="margin-left:auto;font-size:12px;opacity:.8">prototipo</span></div>`;
-  if(lvl>=2)h+=`<div class="blk" style="display:flex;gap:8px;margin-bottom:10px">${["Todos","Buque A","Buque B","Buque C","Buque D"].map((x,i)=>`<span class="tag ${i?"":"t1"}" style="${i?"background:#f1f5f9;color:#334155":""}">${x}</span>`).join("")}</div>`;
-  h+=`<div class="kp4 blk"><div><small>Viajes</small><b>5</b></div><div><small>Consumo real</small><b>238,8 t</b></div><div><small>Plan</small><b>225,7 t</b></div><div><small>Con desvío</small><b style="color:${lvl>=3?"#b91c1c":"inherit"}">${lvl>=3?2:"—"}</b></div></div>`;
-  if(lvl>=2){const mx=65;h+=`<div class="blk" style="display:flex;gap:14px;align-items:flex-end;height:110px;padding:6px 4px 0;border-bottom:1px solid var(--line);margin-bottom:12px">${ROWS.map(r=>{const red=lvl>=3&&(r[3]-r[4])/r[4]>.1;return `<div style="flex:1;text-align:center;font-size:10.5px;color:var(--mute)"><div style="height:${r[3]/mx*90}px;background:${red?"#ef4444":"#2b88d8"};border-radius:5px 5px 0 0"></div>${r[0]}</div>`}).join("")}</div>`}
+  if(lvl>=2)h+=`<div class="filters blk" style="flex-wrap:wrap">${["Todos","Buque A","Buque B","Buque C","Buque D"].map(x=>`<button data-buque="${x}" class="${fuelFilter===x?"on":""}" aria-pressed="${fuelFilter===x}">${x}</button>`).join("")}</div>`;
+  const sum=index=>visibleRows.reduce((n,r)=>n+r[index],0).toLocaleString("es",{minimumFractionDigits:1,maximumFractionDigits:1});
+  const deviations=visibleRows.filter(r=>(r[3]-r[4])/r[4]>.1).length;
+  h+=`<div class="kp4 blk"><div><small>Viajes</small><b>${visibleRows.length}</b></div><div><small>Consumo real</small><b>${sum(3)} t</b></div><div><small>Plan</small><b>${sum(4)} t</b></div><div><small>Con desvío</small><b style="color:${lvl>=3?"#b91c1c":"inherit"}">${lvl>=3?deviations:"—"}</b></div></div>`;
+  if(lvl>=2){const mx=65;h+=`<div class="blk" style="display:flex;gap:14px;align-items:flex-end;height:110px;padding:6px 4px 0;border-bottom:1px solid var(--line);margin-bottom:12px">${visibleRows.map(r=>{const red=lvl>=3&&(r[3]-r[4])/r[4]>.1;return `<div style="flex:1;text-align:center;font-size:10.5px;color:var(--mute)"><div style="height:${r[3]/mx*90}px;background:${red?"#ef4444":"#2b88d8"};border-radius:5px 5px 0 0"></div>${r[0]}</div>`}).join("")}</div>`}
   h+=`<table class="blk"><thead><tr><th>Viaje</th><th>Buque</th><th>Ruta</th><th>Plan (t)</th><th>Real (t)</th><th>Desvío</th></tr></thead><tbody>${rows}</tbody></table>`;
   if(lvl>=4)h+=`<div class="blk card" style="margin-top:12px;padding:10px 12px;display:flex;gap:10px;align-items:center;box-shadow:none"><span class="ic" style="background:#5b5fc7">T</span><div style="font-size:12.5px"><b>Resumen semanal en Teams</b><br><span style="color:var(--mute)">Lunes 08:00 · para jefe de flota · 2 viajes con desvío</span></div></div>`;
-  a.innerHTML=h}
+  a.innerHTML=h;
+  $$("[data-buque]").forEach(b=>b.addEventListener("click",()=>{fuelFilter=b.dataset.buque;renderApp()}));
+}
 $$("#ptabs button").forEach(b=>b.addEventListener("click",()=>{$$("#ptabs button").forEach(x=>x.classList.toggle("on",x===b));renderApp()}));
 function addMsg(c,t){const m=document.createElement("div");m.className="m "+c;if(c==="u")m.textContent=t;else m.innerHTML=t;$("#msgs").appendChild(m);$("#msgs").scrollTop=1e5}
-function sugg(){$("#sugg").innerHTML=turn<TURNS.length?`<button id="sg">${TURNS[turn].u}</button>`:"";const s=$("#sg");if(s)s.addEventListener("click",()=>{$("#cin").value=s.textContent;doSend()})}
-function doSend(){const v=$("#cin").value.trim();if(!v)return;addMsg("u",v);$("#cin").value="";
-  const T=TURNS[Math.min(turn,TURNS.length-1)];
-  setTimeout(()=>{if(turn<TURNS.length){addMsg("a",T.a);lvl=T.lvl;turn++}else addMsg("a","Entendido. Lo agregué al prototipo. Recuerda que ATLAS revisará seguridad, tests y costos antes de graduarlo.");renderApp();guard();sugg()},700)}
+function sugg(){const turns=SCENARIOS[activeScenario].turns;$("#sugg").innerHTML=turn<turns.length?`<button id="sg">${turns[turn].u}</button>`:"";const s=$("#sg");if(s)s.addEventListener("click",()=>{$("#cin").value=s.textContent;doSend()})}
+function doSend(){
+  const v=$("#cin").value.trim();if(!v||pendingReply)return;
+  addMsg("u",v);$("#cin").value="";
+  const step=SCENARIOS[activeScenario].turns[turn];
+  if(!step||v!==step.u){addMsg("a","Esta demo no genera cambios libres. Usa la sugerencia disponible para probar el siguiente ajuste preparado.");return}
+  $("#send").disabled=true;if($("#sg"))$("#sg").disabled=true;
+  pendingReply=setTimeout(()=>{pendingReply=0;$("#send").disabled=false;addMsg("a",step.a);lvl=step.lvl;turn++;renderApp();guard();sugg()},700);
+}
 $("#send").addEventListener("click",doSend);$("#cin").addEventListener("keydown",e=>{if(e.key==="Enter")doSend()});
-function resetWs(){turn=0;lvl=1;$("#msgs").innerHTML="";const idea=$("#idea").value;
-  addMsg("u",idea);addMsg("a","Valeria, puedes construir este ejemplo conversando, seas de negocio o de desarrollo, y pasar al detalle técnico cuando lo necesites. El template <b>Web + datos</b> propone <b>PostgreSQL</b> para los registros de la app y <b>Fabric</b> para analítica y datos compartidos. La demo recorre tres ajustes predefinidos; no genera aplicaciones arbitrarias ni conecta sistemas reales. ¿Qué quieres ajustar?");setBuildMode(buildMode);guard();sugg()}
+function resetWs(){
+  clearTimeout(pendingReply);pendingReply=0;$("#send").disabled=false;
+  turn=0;lvl=1;inspectionRecords=[];inspectionDraft={location:"Cubierta",observation:"",photo:"",status:"Pendiente",owner:"Valeria"};
+  assistantQuestion="";certificateFilter=false;fuelFilter="Todos";$("#msgs").innerHTML="";
+  const scenario=SCENARIOS[activeScenario];
+  $("#pname").textContent=scenario.title;
+  $("#previewUrl").textContent=scenario.slug+".example.invalid · vista simulada · sin autenticación real";
+  if(criteriaReady){CRIT.forEach((c,i)=>c[2]=INITIAL_CRITERIA[i]);renderCrit()}
+  addMsg("u",$("#idea").value);
+  addMsg("a",`Valeria, este ejemplo usa el template <b>${scenario.template}</b>. ${scenario.summary} Puedes construir conversando o pasar al detalle técnico; la demo recorre tres ajustes preparados, sin generar aplicaciones arbitrarias ni conectar sistemas reales.`);
+  setBuildMode(buildMode);guard();sugg();
+}
 $("#share").addEventListener("click",()=>toast("Simulación: compartir con usuarios piloto. No se envió ningún enlace."));
 $("#toGrad").addEventListener("click",()=>show("grad"));
 resetWs();
 
 /* graduation */
 const CRIT=[["Valor de negocio y sponsor","Sponsor: Gerencia de Flota",1,"manual"],["Usuarios y escala esperada","40 usuarios, 3 áreas",1,"manual"],["Arquitectura soportable","Alineada al template",1,"auto"],["Seguridad y cumplimiento","Advanced Security sin hallazgos",1,"auto"],["Datos e integraciones","Falta acceso a datos reales",0,"manual"],["Testing y calidad","15 tests, 84% cobertura",1,"auto"],["Ownership","Sin owner productivo",0,"manual"],["Costos y presupuesto","Estimado USD 420/mes en prod.",1,"auto"],["Observabilidad","Telemetría básica",0,"auto"],["Soporte y operación","Sin modelo de soporte",0,"manual"]];
+const INITIAL_CRITERIA=CRIT.map(c=>c[2]);
 function renderCrit(){$("#crit").innerHTML=CRIT.map((c,i)=>`<div class="crit ${c[2]?"done":""}" data-i="${i}"><span class="ck">${c[2]?"✓":""}</span><div><b style="font-size:13px">${c[0]}</b><br><span style="font-size:11.5px;color:var(--mute)">${c[1]}</span></div><small>${c[3]==="auto"?"🤖 automático":"👤 confirmación"}</small></div>`).join("");
   $$(".crit").forEach(e=>e.addEventListener("click",()=>{const c=CRIT[+e.dataset.i];c[2]=c[2]?0:1;renderCrit()}));
   const n=CRIT.filter(c=>c[2]).length,p=n*10;$("#gpct").textContent=p+"%";
@@ -544,11 +732,13 @@ function renderCrit(){$("#crit").innerHTML=CRIT.map((c,i)=>`<div class="crit ${c
   $$("#flow div").forEach((e,i)=>e.classList.toggle("on",i<=v[3]));$("#gradBtn").disabled=p<90}
 $("#gradBtn").addEventListener("click",()=>toast("Simulación: solicitud de industrialización. No se envió ninguna solicitud."));
 renderCrit();
+criteriaReady=true;
 
 /* catalog */
 const CAT=[["t","Web + datos","#0f6cbd","App web con base de datos, login corporativo y despliegue automático.",["App Service","PostgreSQL","Entra ID"],"14 proyectos"],
 ["t","Agente de IA","#7c5cf2","Asistente que responde sobre documentos internos, publicable en Teams y Copilot.",["Foundry","AI Search","Teams"],"6 proyectos"],
-["t","Formulario móvil","#0ea5a4","Captura de datos en terreno o a bordo, con fotos y trabajo sin conexión.",["Power Apps","SharePoint"],"5 proyectos"],
+["t","Formulario móvil","#0ea5a4","Formulario web responsive con foto. La demo guarda registros solo en la pestaña; backend y sincronización requieren implementación.",["App Service","PostgreSQL","Fabric"],"5 proyectos"],
+["t","Automatización","#f26b4f","Seguimiento de certificados y representación de recordatorios. Las notificaciones requieren autorización e implementación fuera de la demo.",["Functions","Logic Apps","PostgreSQL"],"ejemplo de certificados"],
 ["c","Conector SAP","#334155","Lectura de órdenes y maestros de SAP a través de API Management.",["API Management","Functions"],"aportado por Aplicaciones"],
 ["c","Notificaciones Teams","#5b5fc7","Envía resúmenes y alertas a chats o canales de Teams.",["Graph","Logic Apps"],"aportado por ATLAS piloto"],
 ["c","Evaluación de IA","#f26b4f","Mide calidad y seguridad de respuestas de agentes antes de graduar.",["Foundry Evaluations"],"obligatorio para agentes"],
@@ -556,8 +746,9 @@ const CAT=[["t","Web + datos","#0f6cbd","App web con base de datos, login corpor
 ["d","Datasets analíticos compartidos","#0ea5a4","Datos autorizados de la app y otras fuentes integrados en Fabric para análisis y reutilización. Integración propuesta, no activa.",["Fabric","OneLake"],"analítica de ejemplo"],
 ["d","Modelo semántico de operaciones","#f2c811","Definiciones de indicadores sobre datasets de Fabric para reportes con Power BI y consumo autorizado. Ejemplo, no modelo corporativo conectado.",["Fabric","Power BI"],"modelo de ejemplo"],
 ["t","Tablero","#f2c811","Reporte interactivo sobre datos oficiales, con permisos por rol.",["Fabric","Power BI"],"9 proyectos"]];
-function renderCat(f){$("#catg").innerHTML=CAT.filter(c=>f==="all"||c[0]===f).map(c=>`<div class="card"><div style="display:flex;align-items:center;gap:8px"><span class="ic" style="background:${c[2]}">${c[1][0]}</span><span class="tag ${c[0]==="t"?"t1":c[0]==="c"?"t2":"t4"}">${c[0]==="t"?"Template":c[0]==="c"?"Componente":"Datos"}</span></div><h3>${c[1]}</h3><p>${c[3]}</p><div class="stack">${c[4].map(s=>`<span>${s}</span>`).join("")}</div><div class="meta"><span>${c[5]}</span><button class="btn ghost usebtn" style="padding:5px 10px;font-size:12px">Usar</button></div></div>`).join("");
-  $$(".usebtn").forEach(b=>b.addEventListener("click",()=>{show("home");$("#idea").focus();toast("Template seleccionado: describe tu idea y presiona Crear prototipo")}))}
+const TEMPLATE_SCENARIOS={"Web + datos":"fuel","Tablero":"fuel","Formulario móvil":"inspections","Agente de IA":"assistant","Automatización":"certificates"};
+function renderCat(f){$("#catg").innerHTML=CAT.filter(c=>f==="all"||c[0]===f).map(c=>`<div class="card"><div style="display:flex;align-items:center;gap:8px"><span class="ic" style="background:${c[2]}">${c[1][0]}</span><span class="tag ${c[0]==="t"?"t1":c[0]==="c"?"t2":"t4"}">${c[0]==="t"?"Template":c[0]==="c"?"Componente":"Datos"}</span></div><h3>${c[1]}</h3><p>${c[3]}</p><div class="stack">${c[4].map(s=>`<span>${s}</span>`).join("")}</div><div class="meta"><span>${c[5]}</span><button class="btn ghost usebtn" data-example="${TEMPLATE_SCENARIOS[c[1]]||""}" style="padding:5px 10px;font-size:12px">${TEMPLATE_SCENARIOS[c[1]]?"Usar ejemplo":"Ver alcance"}</button></div></div>`).join("");
+  $$(".usebtn").forEach(b=>b.addEventListener("click",()=>{if(!b.dataset.example){toast("Elemento ilustrativo del catálogo: no hay una integración conectada ni un ejemplo ejecutable.");return}activeScenario=b.dataset.example;$("#idea").value=SCENARIOS[activeScenario].idea;resetWs();show("home");$("#idea").focus();toast("Ejemplo seleccionado. Presiona Crear prototipo o prueba las dos formas de construir.")}))}
 $$("#filt button").forEach(b=>b.addEventListener("click",()=>{$$("#filt button").forEach(x=>x.classList.toggle("on",x===b));renderCat(b.dataset.f)}));
 renderCat("all");
 
