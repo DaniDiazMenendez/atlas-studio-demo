@@ -156,13 +156,13 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
   <div class="crumb" id="crumb">Inicio</div>
   <span class="pill">DEMO PÚBLICA · DATOS FICTICIOS</span>
   <div class="search">Buscar proyectos, templates, componentes…</div>
-  <div class="avatar" id="av" style="background:var(--teal)">BU</div>
+  <div class="avatar" id="av" style="background:var(--teal)">VA</div>
 </header>
 
 <!-- HOME -->
 <section class="view on" id="v-home">
   <div class="hero">
-    <h1 id="hello">Hola, builder 👋</h1>
+    <h1 id="hello">Hola, Valeria 👋</h1>
     <p>De la idea a una solución corporativa: experimenta con desarrollo asistido por IA y un camino gobernado hacia producción. Esta demo simula la creación de un entorno con datos de prueba y controles propuestos.</p>
     <div class="ask"><input id="idea" value="Un tablero para seguir el consumo de combustible por viaje y detectar desvíos"><button class="btn" id="go">Crear prototipo</button></div>
     <div class="chips" id="ideas">
@@ -170,14 +170,14 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
       <button>App para registrar inspecciones con foto desde el móvil</button>
       <button>Alertas de vencimiento de certificados de tripulación</button>
     </div>
+  </div>
     <div class="card" style="margin-bottom:18px">
       <h2>ATLAS es el primer caso, no toda la plataforma</h2>
       <p>El ejemplo muestra una <b>fábrica corporativa de soluciones</b> para una organización ficticia: autonomía y velocidad para los builders, con estándares de Tecnología reutilizables en las siguientes iniciativas.</p>
-      <p class="note" style="color:var(--ink)">Demo pública anonimizada, sin conexión a sistemas corporativos ni autenticación real. Personas, proyectos, datos y cifras son ejemplos; no ingreses información confidencial. Las acciones no crean recursos ni envían mensajes.</p>
+      <p class="note">Valeria es un personaje ficticio. Demo pública anonimizada, sin conexión a sistemas corporativos ni autenticación real. Personas, proyectos, datos y cifras son ejemplos; no ingreses información confidencial. Las acciones no crean recursos ni envían mensajes.</p>
       <p class="sub" style="margin-bottom:12px">Experimentación / vibe coding → prototipo → evaluación → industrialización → producción.</p>
       <button class="btn ghost" id="toProposal">Ver propuesta, cuatro entregables y plan de 90 días</button>
     </div>
-  </div>
   <h2>Mis proyectos</h2>
   <div class="proj" id="projs"></div>
   <div class="row2">
@@ -208,19 +208,23 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
         <div><b>Base corporativa:</b> identidad con Entra ID, accesos por rol, secretos en Key Vault y separación entre sandbox y producción.</div>
         <div><b>Inicio reproducible:</b> repositorio, infraestructura como código y CI/CD desde templates versionados y mantenidos por Tecnología.</div>
         <div><b>Datos e integraciones:</b> datos de prueba por defecto; APIs y conectores aprobados. Acceso a datos reales sujeto a evaluación y autorización.</div>
+        <div><b>PostgreSQL · aplicación:</b> datos transaccionales del prototipo, como viajes, registros y consumo; la aplicación opera sobre esta base.</div>
+        <div><b>Fabric · analítica:</b> integración de datos autorizados, datasets compartidos y modelos semánticos para reportes con Power BI y consumo gobernado por otras soluciones.</div>
+        <div><b>Conexión propuesta:</b> datos autorizados de PostgreSQL y otros sistemas se integran a Fabric mediante un mecanismo por definir; Fabric no reemplaza la base transaccional de la app.</div>
         <div><b>Operación:</b> telemetría, trazabilidad, presupuestos y ciclo de vida de entornos desde el inicio.</div>
       </div>
-      <p class="note">Ejemplo de stack para el piloto: App Service + PostgreSQL; API Management para integraciones; Foundry cuando el caso requiera IA/agentes. Validar stack, red, región, capacidad y licencias antes de aprovisionar. Los nombres de productos describen opciones técnicas, no conexiones activas.</p>
+      <p class="note">Propuesta técnica de la demo, no stack acordado en la minuta: App Service + PostgreSQL para la app; Fabric + Power BI para analítica y datos compartidos; API Management para APIs; Foundry cuando el caso requiera IA/agentes. Validar integración, permisos, red, región, capacidad, costos y licencias antes de aprovisionar. No hay conexiones activas.</p>
     </div>
     <div class="card">
       <h2>2 · Developer &amp; AI experience</h2>
       <div class="feed">
         <div><b>Builders:</b> hipótesis de modelo mixto entre Tecnología, desarrolladores, analistas y negocio; perfiles y permisos por validar.</div>
+        <div><b>Desarrollo interno:</b> permitir que usuarios incluso no técnicos creen prototipos y que los equipos responsables los evolucionen hacia soluciones seguras, mantenibles y escalables.</div>
         <div><b>Vibe coding:</b> describir una necesidad, elegir un template y construir con asistencia de IA y datos de prueba.</div>
         <div><b>Calidad incorporada:</b> revisiones de código, tests, análisis de seguridad y documentación; evaluar respuestas y uso de herramientas cuando haya agentes.</div>
         <div><b>Reutilización:</b> catálogo con owners, versiones y ejemplos; los componentes del piloto pueden incorporarse tras revisión de Tecnología.</div>
       </div>
-      <p class="note">Entregable: recorrido del builder y paquete mínimo para iniciar un proyecto. La generación de código y las conexiones de esta demo son simuladas, no integraciones activas.</p>
+      <p class="note">Paquete inicial propuesto: template y componentes comunes, repositorio, entorno de desarrollo, identidad, datos de prueba, APIs autorizadas, infraestructura como código, CI/CD, tests, revisión de seguridad, documentación, telemetría y presupuesto. Confirmar qué viene preconfigurado según perfil. La generación de código y las conexiones de esta demo son simuladas.</p>
     </div>
   </div>
   <div class="row2">
@@ -261,14 +265,49 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
   <div class="card" style="margin-top:18px">
     <h2>Próximo paso: consolidación del equipo de trabajo</h2>
     <p>Preparar los cuatro entregables con hipótesis, alternativas y responsables de elaboración. Validar una propuesta concreta con los stakeholders para corregirla juntos y acordar el primer alcance, en lugar de comenzar con otra ronda de preguntas abiertas.</p>
-    <p class="note">Decisiones por validar sobre la propuesta: iniciativas siguientes y volumen anual; perfiles de builders; paquete preconfigurado; datos y sistemas habilitados; presupuesto; administración y soporte; ownership productivo; criterios formales de graduación y éxito a 90 días.</p>
+    <p class="note">Primero consolidar hipótesis y los cuatro entregables; después validar el alcance con negocio y Tecnología. Las decisiones siguientes son una agenda para reaccionar a la propuesta, no una nueva ronda previa de preguntas ni acuerdos ya alcanzados.</p>
+    <table id="business-decisions">
+      <thead><tr><th>Decisión pendiente de la minuta</th><th>Qué debe quedar acordado</th></tr></thead>
+      <tbody>
+        <tr><td>¿Qué proyectos vendrán después de ATLAS?</td><td>Iniciativas candidatas, prioridad y componentes que pueden reutilizar. Los proyectos de esta demo son ficticios, no un backlog confirmado.</td></tr>
+        <tr><td>¿Cuántas iniciativas se habilitarán en el primer año?</td><td>Volumen esperado, capacidad de la plataforma y metas de adopción; cantidad aún por definir.</td></tr>
+        <tr><td>¿Quiénes serán los builders?</td><td>Tecnología, desarrolladores, analistas, negocio o modelo mixto; perfiles, permisos y acompañamiento.</td></tr>
+        <tr><td>¿Qué vendrá preconfigurado al iniciar un proyecto?</td><td>Paquete mínimo y templates según perfil; validar la propuesta de Developer &amp; AI experience.</td></tr>
+        <tr><td>¿Qué datos y sistemas podrán consumir los prototipos?</td><td>Fuentes, clasificación, permisos y APIs habilitadas; datos de prueba por defecto y acceso real autorizado.</td></tr>
+        <tr><td>¿Cuál será el modelo de costos y presupuesto?</td><td>Financiación, límites por experimento, costos compartidos y presupuesto de industrialización y producción.</td></tr>
+        <tr><td>¿Quién administrará y dará soporte a la plataforma?</td><td>Equipo responsable, mantenimiento de componentes y atención de incidentes de plataforma.</td></tr>
+        <tr><td>¿Quién toma ownership cuando una solución pasa a producción?</td><td>Owner de negocio, responsable técnico y soporte de la solución, distintos de la administración del sandbox.</td></tr>
+        <tr><td>¿Cuáles serán los criterios formales de graduación?</td><td>Evidencias, controles obligatorios y autoridad para cada decisión; no está definido el umbral formal.</td></tr>
+        <tr><td>¿Qué debe ocurrir en 90 días para considerar éxito?</td><td>Resultados verificables, línea base y metas; validar la secuencia propuesta sin prometer producción.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card" style="margin-top:18px">
+    <h2>Cobertura de la minuta · temas y ubicación en la demo</h2>
+    <p class="sub">Revisión de contenido: se representan los temas aportados por el negocio. Esta cobertura no implica requisitos aprobados, integraciones implementadas ni criterios de aceptación acordados.</p>
+    <table id="minute-coverage">
+      <thead><tr><th>Tema de negocio</th><th>Cómo está representado</th></tr></thead>
+      <tbody>
+        <tr><td>Capacidad corporativa de experimentación, no solo una app o un sandbox</td><td>Inicio y dos piezas del modelo: ATLAS como primer caso para validar una fábrica de soluciones y reutilizarla en siguientes iniciativas.</td></tr>
+        <tr><td>Experimentación → prototipo → evaluación → industrialización → producción</td><td>Recorrido en Inicio, Graduation Framework, checklist de diez criterios y las cinco decisiones posibles en Graduación.</td></tr>
+        <tr><td>Sandbox, arquitecturas, componentes y templates comunes</td><td>Arquitectura de referencia, paquete de inicio y Catálogo; activos propuestos sujetos a aprobación, versión y ownership.</td></tr>
+        <tr><td>Identidad, APIs, integraciones, infraestructura como código, repositorios y CI/CD</td><td>Arquitectura, recorrido del builder y pestaña Arquitectura del espacio de trabajo.</td></tr>
+        <tr><td>Testing, revisión de código, seguridad, observabilidad y monitoreo</td><td>Developer &amp; AI experience, criterios de graduación, controles y preparación para industrialización.</td></tr>
+        <tr><td>IA / agentes / Foundry y desarrollo asistido por IA</td><td>Asistente simulado, template de agente y componente de evaluación de IA. Foundry es una opción técnica, no un recurso desplegado.</td></tr>
+        <tr><td>Graduación por valor, sponsor, escala, arquitectura, seguridad, datos, calidad, ownership, costos, observabilidad y soporte</td><td>Los diez criterios de Graduación; propuesta de evidencias y aprobaciones separadas de producción.</td></tr>
+        <tr><td>KPIs de innovación, velocidad, conversión, reutilización, gobierno, costos y valor de negocio</td><td>Siete dimensiones en Gobierno y costos, con definiciones y evidencias; cifras ilustrativas, metas por acordar.</td></tr>
+        <tr><td>Modelo operativo, autonomía con estándares y evolución a soluciones mantenibles y escalables</td><td>Roles de negocio, builder, Tecnología/plataforma y owner/soporte productivo; responsabilidades por validar.</td></tr>
+        <tr><td>Diez decisiones abiertas, éxito a 90 días y consolidación interna antes de volver al negocio</td><td>Agenda explícita de decisiones, plan de 90 días y preparación de los cuatro entregables para validar una propuesta concreta.</td></tr>
+      </tbody>
+    </table>
+    <p class="note">PostgreSQL y Fabric se explicitan como propuesta técnica complementaria de esta demo; no se atribuyen a una decisión del negocio en la minuta.</p>
   </div>
 </section>
 
 <!-- WORKSPACE -->
 <section class="view" id="v-ws">
   <div class="wsh">
-    <div><h1 id="pname">Consumo de combustible por viaje</h1><span class="tag t1">Prototipo</span> <span style="color:var(--mute);font-size:12.5px">· Sandbox simulado · expira en 30 días · owner: Builder demo</span></div>
+    <div><h1 id="pname">Consumo de combustible por viaje</h1><span class="tag t1">Prototipo</span> <span style="color:var(--mute);font-size:12.5px">· Sandbox simulado · expira en 30 días · owner: Valeria</span></div>
     <div style="margin-left:auto;display:flex;gap:8px"><button class="btn ghost" id="share">Compartir para probar</button><button class="btn green" id="toGrad">Solicitar graduación →</button></div>
   </div>
   <div class="ws">
@@ -294,6 +333,20 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
   <h1>Graduación: ¿está listo para industrialización?</h1>
   <p class="sub">Simula la evaluación de los diez criterios. El modelo propuesto combina controles automáticos con evidencias y aprobaciones de negocio y Tecnología; industrializar no equivale a autorizar producción.</p>
   <p class="note">El porcentaje y el umbral del 90% son ilustrativos. La propuesta formal requiere definir criterios obligatorios y una aprobación productiva separada; consulta Propuesta y modelo.</p>
+  <div class="card" style="margin-bottom:14px">
+    <h2>Cinco decisiones posibles · framework propuesto</h2>
+    <table id="graduation-outcomes">
+      <thead><tr><th>Decisión</th><th>Resultado de la evaluación</th></tr></thead>
+      <tbody>
+        <tr><td>Seguir experimentándose</td><td>Continuar validando la hipótesis con entorno, datos y presupuesto acotados.</td></tr>
+        <tr><td>Descartar</td><td>Documentar por qué no se continúa y conservar aprendizajes; cerrar el experimento y sus recursos.</td></tr>
+        <tr><td>Requerir mayor desarrollo</td><td>Registrar brechas, responsables y acciones antes de volver a evaluar.</td></tr>
+        <tr><td>Preparar industrialización</td><td>Aprobar un plan de evolución técnica y operativa con negocio y Tecnología.</td></tr>
+        <tr><td>Avanzar hacia producción</td><td>Autorizar por separado cuando existan evidencias de seguridad, datos, calidad, ownership, costos, observabilidad y soporte.</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Estas decisiones requieren evaluación humana. El indicador interactivo de abajo solo simula preparación; no decide automáticamente el descarte ni autoriza producción.</p>
+  </div>
   <div class="grad">
     <div class="card"><h2>Criterios de graduación</h2><div id="crit"></div></div>
     <div>
@@ -353,11 +406,11 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
       <tbody>
         <tr><td>Innovación y adopción</td><td>Ideas iniciadas, builders y áreas activas, prototipos creados</td><td>Registros únicos del portafolio y actividad mensual; definir qué cuenta como prototipo evaluable.</td></tr>
         <tr><td>Velocidad</td><td>Tiempo idea → prototipo y prototipo → producción</td><td>Mediana de días entre hitos registrados; reportar también iniciativas pendientes.</td></tr>
-        <tr><td>Conversión</td><td>% de prototipos promovidos y soluciones productivas</td><td>Prototipos de una misma cohorte que llegan a producción / total de prototipos de esa cohorte; indicar ventana de seguimiento.</td></tr>
-        <tr><td>Reutilización</td><td>Uso de templates/componentes y esfuerzo de inicio</td><td>Proyectos que usan activos aprobados / proyectos iniciados; comparar horas de preparación con la línea base.</td></tr>
+        <tr><td>Conversión</td><td>% de prototipos promovidos a producción y número de soluciones productivas</td><td>Prototipos de una misma cohorte que llegan a producción / total de prototipos de esa cohorte; indicar ventana de seguimiento y contar soluciones productivas únicas.</td></tr>
+        <tr><td>Reutilización</td><td>Uso de templates/componentes y reducción del esfuerzo de inicio</td><td>Proyectos que usan activos aprobados / proyectos iniciados; comparar horas de preparación con la línea base y registrar la reducción del esfuerzo.</td></tr>
         <tr><td>Gobierno</td><td>Cumplimiento de arquitectura, seguridad, tests y documentación</td><td>Controles aplicables con evidencia aprobada / controles aplicables; mostrar bloqueos obligatorios por separado.</td></tr>
-        <tr><td>Costos</td><td>Costo por experimento, mensual del entorno y de industrialización</td><td>Consumo atribuido por proyecto y costos compartidos explícitos; registrar además esfuerzo y licencias para estimar costo total.</td></tr>
-        <tr><td>Valor de negocio</td><td>Horas ahorradas, mejora de procesos e impacto económico</td><td>Comparación antes/después validada por el sponsor; separar valor esperado de valor efectivamente realizado.</td></tr>
+        <tr><td>Costos</td><td>Costo promedio por experimento, costo mensual del entorno y costo de llevar un prototipo a producción</td><td>Definir duración comparable de los experimentos; sumar consumo atribuido, costos compartidos, esfuerzo y licencias, incluidos industrialización y puesta en producción.</td></tr>
+        <tr><td>Valor de negocio</td><td>Horas/procesos ahorrados, impacto económico y valor de soluciones productivizadas</td><td>Comparación antes/después validada por el sponsor; separar valor esperado de valor efectivamente realizado por soluciones en producción.</td></tr>
       </tbody>
     </table>
     <p class="note">Propuesta operativa: plataforma consolida actividad y costos; Tecnología, controles y tiempos de entrega; negocio, valor realizado. Acordar owners nominales, fuentes, línea base y metas, con revisión mensual y decisión de graduación por iniciativa.</p>
@@ -382,11 +435,11 @@ function show(v){$$(".view").forEach(e=>e.classList.toggle("on",e.id==="v-"+v));
 $$("#nav a").forEach(a=>a.addEventListener("click",()=>show(a.dataset.v)));
 $("#toProposal").addEventListener("click",()=>show("proposal"));
 $$("#role button").forEach(b=>b.addEventListener("click",()=>{$$("#role button").forEach(x=>x.classList.toggle("on",x===b));
-  if(b.dataset.r==="t"){$("#av").textContent="TI";$("#av").style.background="#334155";show("gov")}else{$("#av").textContent="BU";$("#av").style.background="var(--teal)";show("home")}}));
+  if(b.dataset.r==="t"){$("#av").textContent="TI";$("#av").style.background="#334155";show("gov")}else{$("#av").textContent="VA";$("#av").style.background="var(--teal)";show("home")}}));
 
 /* home */
 const STG=[["Idea","t0"],["Prototipo","t1"],["Evaluación","t2"],["Industrialización","t3"],["Producción","t4"]];
-const PROJ=[["ATLAS · piloto","Primer caso de la plataforma, con App Service, PostgreSQL y Foundry.",3,78],["Certificados tripulación","Alertas de vencimientos y renovaciones.",2,61],["Prueba OCR facturas","Lectura automática de facturas de proveedores.",1,35],["Agenda de puertos","Calendario compartido de recaladas.",4,100]];
+const PROJ=[["ATLAS · piloto","PostgreSQL para la app; Fabric para analítica. Foundry cuando se requiera IA.",3,78],["Certificados tripulación","Alertas de vencimientos y renovaciones.",2,61],["Prueba OCR facturas","Lectura automática de facturas de proveedores.",1,35],["Agenda de puertos","Calendario compartido de recaladas.",4,100]];
 $("#projs").innerHTML=PROJ.map(p=>`<div class="card pc"><span class="tag ${STG[p[2]][1]}">${STG[p[2]][0]}</span><h3>${p[0]}</h3><p>${p[1]}</p><div class="bar"><i style="width:${p[3]}%"></i></div><div class="meta"><span>Preparación para producción</span><b>${p[3]}%</b></div></div>`).join("");
 $$(".pc").forEach(e=>e.addEventListener("click",()=>show("grad")));
 const TPL=[["Web + datos","#0f6cbd","App Service · PostgreSQL"],["Agente de IA","#7c5cf2","Foundry · Teams"],["Tablero","#f2c811","Fabric · Power BI"],["Formulario móvil","#0ea5a4","Power Apps · SharePoint"],["Automatización","#f26b4f","Functions · Logic Apps"],["API de integración","#334155","API Management"]];
@@ -395,7 +448,7 @@ $$(".tp").forEach(e=>e.addEventListener("click",()=>show("cat")));
 $$("#ideas button").forEach(b=>b.addEventListener("click",()=>{$("#idea").value=b.textContent}));
 
 /* provisioning */
-const PS=[["Entendiendo tu idea y eligiendo template","Web + datos"],["Creando repositorio y entorno de desarrollo","GitHub · Codespaces"],["Conectando identidad corporativa","Entra ID"],["Cargando datos de prueba anonimizados","PostgreSQL"],["Aplicando controles y presupuesto","USD 150/mes · 30 días"],["Generando primera versión con Copilot","listo"]];
+const PS=[["Entendiendo tu idea y eligiendo template","Web + datos"],["Creando repositorio y entorno de desarrollo","GitHub · Codespaces"],["Conectando identidad corporativa","Entra ID"],["Cargando datos transaccionales de prueba","PostgreSQL"],["Preparando acceso analítico de ejemplo","Fabric · datos compartidos"],["Aplicando controles y presupuesto","USD 150/mes · 30 días"],["Generando primera versión con Copilot","listo"]];
 $("#go").addEventListener("click",()=>{
   $("#provIdea").textContent="“"+$("#idea").value+"”";
   $("#psteps").innerHTML=PS.map(p=>`<li><i>✓</i>${p[0]}<small>${p[1]}</small></li>`).join("");
@@ -426,7 +479,7 @@ ${lvl>=3?`
 <span class="k">export const</span> esDesvio = v => v.desvio > <span class="s">0.10</span>;  <span class="c">// cubierto por 3 tests</span>`:""}${lvl>=4?`
 <span class="c">// resumen semanal → Teams (conector aprobado)</span>
 schedule(<span class="s">"lun 08:00"</span>, () => teams.post(<span class="s">"jefe-flota"</span>, resumen()));`:""}</pre>`;return}
-  if(t==="arch"){a.innerHTML=`<div class="feed blk">${["Interfaz: web app"+(lvl>=4?" + Teams":""),"App Service (sandbox)","PostgreSQL con datos de prueba","Entra ID · Key Vault","GitHub Actions · Advanced Security","Presupuesto y expiración automática"].map(x=>`<div>▸ ${x}</div>`).join("")}</div><p class="note">ATLAS mantiene la arquitectura alineada al template: el builder no tiene que configurarla.</p>`;return}
+  if(t==="arch"){a.innerHTML=`<div class="feed blk">${["Interfaz: web app"+(lvl>=4?" + Teams":""),"App Service (sandbox) · lógica y APIs de la app","PostgreSQL · datos transaccionales de prueba","Integración autorizada hacia Fabric · mecanismo por validar","Fabric · analítica, datasets compartidos y modelos semánticos","Power BI · reportes sobre datos analíticos","API Management · APIs y acceso gobernado a integraciones","Foundry · opción para casos con IA/agentes","Entra ID · Key Vault","Infraestructura como código · GitHub Actions · revisión de código y seguridad","Tests · telemetría · monitoreo · presupuesto y expiración"].map(x=>`<div>▸ ${x}</div>`).join("")}</div><p class="note">Propuesta simulada: PostgreSQL sirve a la aplicación; Fabric sirve a la analítica y la reutilización de datos. No hay recursos desplegados ni conexiones activas. El template debe ser validado y mantenido por Tecnología.</p>`;return}
   const dev=r=>(r[4]-r[3])/r[3];
   const rows=ROWS.map(r=>{const d=(r[3]-r[4])/r[4],red=lvl>=3&&d>.1;return `<tr style="${red?"background:#fef2f2;color:#b91c1c;font-weight:600":""}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[4]}</td><td>${r[3]}</td><td>${(d*100).toFixed(1)}%</td></tr>`}).join("");
   let h=`<div class="apph blk"><b>⛽ Consumo de combustible</b><span style="margin-left:auto;font-size:12px;opacity:.8">prototipo</span></div>`;
@@ -444,7 +497,7 @@ function doSend(){const v=$("#cin").value.trim();if(!v)return;addMsg("u",v);$("#
   setTimeout(()=>{if(turn<TURNS.length){addMsg("a",T.a);lvl=T.lvl;turn++}else addMsg("a","Entendido. Lo agregué al prototipo. Recuerda que ATLAS revisará seguridad, tests y costos antes de graduarlo.");renderApp();guard();sugg()},700)}
 $("#send").addEventListener("click",doSend);$("#cin").addEventListener("keydown",e=>{if(e.key==="Enter")doSend()});
 function resetWs(){turn=0;lvl=1;$("#msgs").innerHTML="";const idea=$("#idea").value;
-  addMsg("u",idea);addMsg("a","Creé una primera versión con el template <b>Web + datos</b>, datos de prueba y acceso solo para usuarios internos. ¿Qué quieres ajustar?");renderApp();guard();sugg()}
+  addMsg("u",idea);addMsg("a","Valeria, esta primera versión simulada usa el template <b>Web + datos</b>: <b>PostgreSQL</b> para los registros de la app y <b>Fabric</b> para analítica y datos compartidos. Solo hay datos de ejemplo; el acceso corporativo y las integraciones son parte de la propuesta, no conexiones reales. ¿Qué quieres ajustar?");renderApp();guard();sugg()}
 $("#share").addEventListener("click",()=>toast("Simulación: compartir con usuarios piloto. No se envió ningún enlace."));
 $("#toGrad").addEventListener("click",()=>show("grad"));
 resetWs();
@@ -468,8 +521,9 @@ const CAT=[["t","Web + datos","#0f6cbd","App web con base de datos, login corpor
 ["c","Conector SAP","#334155","Lectura de órdenes y maestros de SAP a través de API Management.",["API Management","Functions"],"aportado por Aplicaciones"],
 ["c","Notificaciones Teams","#5b5fc7","Envía resúmenes y alertas a chats o canales de Teams.",["Graph","Logic Apps"],"aportado por ATLAS piloto"],
 ["c","Evaluación de IA","#f26b4f","Mide calidad y seguridad de respuestas de agentes antes de graduar.",["Foundry Evaluations"],"obligatorio para agentes"],
-["d","Datos de flota (prueba)","#16a34a","Datos anonimizados de viajes, consumo y buques para prototipar.",["PostgreSQL","Fabric"],"sandbox"],
-["d","Modelo semántico de operaciones","#f2c811","Indicadores oficiales listos para reportes y agentes.",["Fabric","Power BI"],"producción"],
+["d","Datos de flota (prueba)","#16a34a","Registros transaccionales ficticios de viajes, consumo y buques para la app. PostgreSQL es la base operativa.",["PostgreSQL"],"sandbox"],
+["d","Datasets analíticos compartidos","#0ea5a4","Datos autorizados de la app y otras fuentes integrados en Fabric para análisis y reutilización. Integración propuesta, no activa.",["Fabric","OneLake"],"analítica de ejemplo"],
+["d","Modelo semántico de operaciones","#f2c811","Definiciones de indicadores sobre datasets de Fabric para reportes con Power BI y consumo autorizado. Ejemplo, no modelo corporativo conectado.",["Fabric","Power BI"],"modelo de ejemplo"],
 ["t","Tablero","#f2c811","Reporte interactivo sobre datos oficiales, con permisos por rol.",["Fabric","Power BI"],"9 proyectos"]];
 function renderCat(f){$("#catg").innerHTML=CAT.filter(c=>f==="all"||c[0]===f).map(c=>`<div class="card"><div style="display:flex;align-items:center;gap:8px"><span class="ic" style="background:${c[2]}">${c[1][0]}</span><span class="tag ${c[0]==="t"?"t1":c[0]==="c"?"t2":"t4"}">${c[0]==="t"?"Template":c[0]==="c"?"Componente":"Datos"}</span></div><h3>${c[1]}</h3><p>${c[3]}</p><div class="stack">${c[4].map(s=>`<span>${s}</span>`).join("")}</div><div class="meta"><span>${c[5]}</span><button class="btn ghost usebtn" style="padding:5px 10px;font-size:12px">Usar</button></div></div>`).join("");
   $$(".usebtn").forEach(b=>b.addEventListener("click",()=>{show("home");$("#idea").focus();toast("Template seleccionado: describe tu idea y presiona Crear prototipo")}))}
@@ -477,7 +531,7 @@ $$("#filt button").forEach(b=>b.addEventListener("click",()=>{$$("#filt button")
 renderCat("all");
 
 /* governance */
-const PT=[["ATLAS · piloto","Analítica",3,"USD 310","✅","Sponsor demo"],["Consumo de combustible","Operaciones",1,"USD 26","✅","Builder demo"],["Certificados tripulación","RR.HH. Marítimo",2,"USD 45","⚠️ 1","—"],["Prueba OCR facturas","Finanzas",1,"USD 12","✅","—"],["Agenda de puertos","Comercial",4,"USD 140","✅","Owner demo"],["Asistente procedimientos","Seguridad (HSE)",0,"USD 0","—","—"]];
+const PT=[["ATLAS · piloto","Analítica",3,"USD 310","✅","Sponsor demo"],["Consumo de combustible","Operaciones",1,"USD 26","✅","Valeria"],["Certificados tripulación","RR.HH. Marítimo",2,"USD 45","⚠️ 1","—"],["Prueba OCR facturas","Finanzas",1,"USD 12","✅","—"],["Agenda de puertos","Comercial",4,"USD 140","✅","Owner demo"],["Asistente procedimientos","Seguridad (HSE)",0,"USD 0","—","—"]];
 $("#ptable tbody").innerHTML=PT.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td><span class="tag ${STG[r[2]][1]}">${STG[r[2]][0]}</span></td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td></tr>`).join("");
 </script>
 </body>
