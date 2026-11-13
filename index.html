@@ -72,11 +72,16 @@ h1{font-size:24px;margin:0 0 4px}h2{font-size:15px;margin:0 0 12px}
 .steps li.ok{color:var(--ink)}.steps li.ok i{background:var(--green);border-color:var(--green);color:#fff}
 .steps li small{margin-left:auto;color:var(--mute)}
 /* workspace */
-.ws{display:grid;grid-template-columns:360px 1fr;gap:14px;height:calc(100% - 64px)}
+.ws{display:grid;grid-template-columns:360px minmax(0,1fr);gap:14px;height:calc(100% - 64px)}
 .wsh{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.build-mode{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:14px;padding:12px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.build-mode button{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:600}
+.build-mode button[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
+.build-mode p{flex-basis:100%;margin:2px 0 0;color:var(--mute);line-height:1.5}
+.build-mode button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .chat{display:flex;flex-direction:column;padding:0;overflow:hidden}
 .msgs{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
-.m{max-width:88%;padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.45;animation:pop .35s}
+.m{max-width:88%;overflow-wrap:anywhere;padding:9px 12px;border-radius:12px;font-size:13px;line-height:1.45;animation:pop .35s}
 .m.u{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:3px}
 .m.a{align-self:flex-start;background:#f1f5f9;border-bottom-left-radius:3px}
 .m.a b{color:var(--blue)}
@@ -84,7 +89,7 @@ h1{font-size:24px;margin:0 0 4px}h2{font-size:15px;margin:0 0 12px}
 .sugg{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 8px}
 .sugg button{border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;border-radius:999px;padding:5px 10px;font-size:12px;cursor:pointer}
 .compose{display:flex;gap:8px;border-top:1px solid var(--line);padding:10px}
-.compose input{flex:1;border:1px solid var(--line);border-radius:9px;padding:9px 11px;outline:0}
+.compose input{flex:1;min-width:0;border:1px solid var(--line);border-radius:9px;padding:9px 11px;outline:0}
 .right{display:flex;flex-direction:column;gap:14px;min-height:0}
 .preview{flex:1;padding:0;overflow:hidden;display:flex;flex-direction:column}
 .pvbar{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);background:#f8fafc;font-size:12px;color:var(--mute)}
@@ -134,6 +139,8 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 .note{font-size:11.5px;color:var(--mute);margin-top:14px}
 @media (max-width:1100px){.proj{grid-template-columns:repeat(2,1fr)}.ws,.grad,.row2{grid-template-columns:1fr}.kpis,.guard{grid-template-columns:repeat(2,1fr)}aside{width:72px}aside .brand div,nav a span,nav .sec,.role{display:none}}
+@media (max-width:1100px){.ws{grid-template-columns:minmax(0,1fr);height:auto}.chat{min-width:0;min-height:360px}.preview{min-height:360px}.sugg button{max-width:100%;text-align:left}}
+@media (max-width:700px){.wsh{flex-wrap:wrap}.wsh>div:last-child{flex-wrap:wrap}.pvbar{flex-wrap:wrap}.pvbar .url{min-width:0}.tabs{flex-basis:100%}.view{padding:16px}.build-mode p{font-size:13px}}
 </style>
 </head>
 <body>
@@ -148,7 +155,7 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
     <div class="sec">Tecnología</div>
     <a data-v="gov"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg><span>Gobierno y costos</span></a>
   </nav>
-  <div class="role"><small>Ver como</small><div class="seg" id="role"><button class="on" data-r="b">Builder</button><button data-r="t">Tecnología</button></div></div>
+  <div class="role"><small>Builder: negocio y desarrolladores</small><div class="seg" id="role"><button class="on" data-r="b">Builder</button><button data-r="t">Tecnología</button></div></div>
 </aside>
 
 <div class="main">
@@ -174,9 +181,11 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
     <div class="card" style="margin-bottom:18px">
       <h2>ATLAS es el primer caso, no toda la plataforma</h2>
       <p>El ejemplo muestra una <b>fábrica corporativa de soluciones</b> para una organización ficticia: autonomía y velocidad para los builders, con estándares de Tecnología reutilizables en las siguientes iniciativas.</p>
+      <p><b>El negocio también construye.</b> Como plantea la minuta, usuarios incluso no técnicos pueden crear aplicaciones con desarrollo asistido por IA. Puedes trabajar con <b>vibe coding</b> —describir, probar y ajustar— o con <b>desarrollo técnico</b> —inspeccionar código y arquitectura— sobre el mismo prototipo y los mismos controles. Tecnología define los estándares y acompaña el camino a producción; no es el único equipo que desarrolla.</p>
       <p class="note">Valeria es un personaje ficticio. Demo pública anonimizada, sin conexión a sistemas corporativos ni autenticación real. Personas, proyectos, datos y cifras son ejemplos; no ingreses información confidencial. Las acciones no crean recursos ni envían mensajes.</p>
       <p class="sub" style="margin-bottom:12px">Experimentación / vibe coding → prototipo → evaluación → industrialización → producción.</p>
       <button class="btn ghost" id="toProposal">Ver propuesta, cuatro entregables y plan de 90 días</button>
+      <button class="btn ghost" id="toBuild" style="margin-top:8px">Probar ambas formas de construir</button>
     </div>
   <h2>Mis proyectos</h2>
   <div class="proj" id="projs"></div>
@@ -219,6 +228,7 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
       <h2>2 · Developer &amp; AI experience</h2>
       <div class="feed">
         <div><b>Builders:</b> hipótesis de modelo mixto entre Tecnología, desarrolladores, analistas y negocio; perfiles y permisos por validar.</div>
+        <div><b>Dos formas de construir, no dos permisos:</b> negocio y desarrolladores pueden crear y ajustar con vibe coding o profundizar en código y arquitectura. Cambiar de modo conserva el prototipo y sus controles; el nivel de asistencia no determina quién puede desarrollar.</div>
         <div><b>Desarrollo interno:</b> permitir que usuarios incluso no técnicos creen prototipos y que los equipos responsables los evolucionen hacia soluciones seguras, mantenibles y escalables.</div>
         <div><b>Vibe coding:</b> describir una necesidad, elegir un template y construir con asistencia de IA y datos de prueba.</div>
         <div><b>Calidad incorporada:</b> revisiones de código, tests, análisis de seguridad y documentación; evaluar respuestas y uso de herramientas cuando haya agentes.</div>
@@ -296,7 +306,7 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
         <tr><td>IA / agentes / Foundry y desarrollo asistido por IA</td><td>Asistente simulado, template de agente y componente de evaluación de IA. Foundry es una opción técnica, no un recurso desplegado.</td></tr>
         <tr><td>Graduación por valor, sponsor, escala, arquitectura, seguridad, datos, calidad, ownership, costos, observabilidad y soporte</td><td>Los diez criterios de Graduación; propuesta de evidencias y aprobaciones separadas de producción.</td></tr>
         <tr><td>KPIs de innovación, velocidad, conversión, reutilización, gobierno, costos y valor de negocio</td><td>Siete dimensiones en Gobierno y costos, con definiciones y evidencias; cifras ilustrativas, metas por acordar.</td></tr>
-        <tr><td>Modelo operativo, autonomía con estándares y evolución a soluciones mantenibles y escalables</td><td>Roles de negocio, builder, Tecnología/plataforma y owner/soporte productivo; responsabilidades por validar.</td></tr>
+        <tr><td>Modelo operativo, autonomía con estándares y evolución a soluciones mantenibles y escalables</td><td>Negocio también desarrolla, incluso sin experiencia técnica. Builder abarca ambos; vibe coding y desarrollo técnico son modos del mismo espacio, no permisos. Tecnología gobierna estándares y acompaña la evolución; ownership y soporte por validar.</td></tr>
         <tr><td>Diez decisiones abiertas, éxito a 90 días y consolidación interna antes de volver al negocio</td><td>Agenda explícita de decisiones, plan de 90 días y preparación de los cuatro entregables para validar una propuesta concreta.</td></tr>
       </tbody>
     </table>
@@ -310,9 +320,15 @@ td{padding:7px 8px;border-bottom:1px solid #f1f5f9}
     <div><h1 id="pname">Consumo de combustible por viaje</h1><span class="tag t1">Prototipo</span> <span style="color:var(--mute);font-size:12.5px">· Sandbox simulado · expira en 30 días · owner: Valeria</span></div>
     <div style="margin-left:auto;display:flex;gap:8px"><button class="btn ghost" id="share">Compartir para probar</button><button class="btn green" id="toGrad">Solicitar graduación →</button></div>
   </div>
+  <div class="build-mode" aria-label="Forma de construir">
+    <b>¿Cómo quieres construir?</b>
+    <button type="button" data-build="vibe" aria-pressed="true">Vibe coding</button>
+    <button type="button" data-build="technical" aria-pressed="false">Desarrollo técnico</button>
+    <p id="buildHelp" role="status">Construye conversando y prueba la vista previa. Negocio también desarrolla. Cambiar de modo conserva tu trabajo.</p>
+  </div>
   <div class="ws">
     <div class="card chat">
-      <div style="padding:12px 14px;border-bottom:1px solid var(--line);font-weight:700;display:flex;align-items:center;gap:8px"><span class="ic" style="background:linear-gradient(135deg,#7c5cf2,#2b88d8);width:24px;height:24px;font-size:11px">✦</span>Copilot · asistente de construcción</div>
+      <div style="padding:12px 14px;border-bottom:1px solid var(--line);font-weight:700;display:flex;align-items:center;gap:8px"><span class="ic" style="background:linear-gradient(135deg,#7c5cf2,#2b88d8);width:24px;height:24px;font-size:11px">✦</span><span id="assistantMode">Copilot · construir conversando</span></div>
       <div class="msgs" id="msgs"></div>
       <div class="sugg" id="sugg"></div>
       <div class="compose"><input id="cin" placeholder="Pide un cambio en lenguaje natural…"><button class="btn" id="send">Enviar</button></div>
@@ -434,6 +450,7 @@ const NAMES={home:"Inicio",proposal:"Propuesta y modelo",ws:"Mi espacio de traba
 function show(v){$$(".view").forEach(e=>e.classList.toggle("on",e.id==="v-"+v));$$("#nav a").forEach(a=>a.classList.toggle("on",a.dataset.v===v));$("#crumb").textContent=NAMES[v]}
 $$("#nav a").forEach(a=>a.addEventListener("click",()=>show(a.dataset.v)));
 $("#toProposal").addEventListener("click",()=>show("proposal"));
+$("#toBuild").addEventListener("click",()=>show("ws"));
 $$("#role button").forEach(b=>b.addEventListener("click",()=>{$$("#role button").forEach(x=>x.classList.toggle("on",x===b));
   if(b.dataset.r==="t"){$("#av").textContent="TI";$("#av").style.background="#334155";show("gov")}else{$("#av").textContent="VA";$("#av").style.background="var(--teal)";show("home")}}));
 
@@ -464,6 +481,20 @@ const TURNS=[
  {u:"Envíale un resumen semanal al jefe de flota por Teams",a:"Agregué un <b>resumen semanal en Teams</b> usando el conector aprobado. Nota: esto requerirá revisión de Tecnología al graduar.",lvl:4}
 ];
 let turn=0,lvl=1;
+let buildMode="vibe";
+function setBuildMode(mode){
+  buildMode=mode;
+  const technical=mode==="technical";
+  $$(".build-mode button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.build===mode)));
+  $("#buildHelp").textContent=technical
+    ?"Revisa código y arquitectura, o sigue con Copilot. Mismo prototipo y controles; código de ejemplo, sin editor conectado."
+    :"Construye conversando y prueba la vista previa. Negocio también desarrolla. Cambiar de modo conserva tu trabajo.";
+  $("#assistantMode").textContent=technical?"Copilot · apoyo al desarrollo técnico":"Copilot · construir conversando";
+  $("#cin").placeholder=technical?"Describe un ajuste técnico del ejemplo…":"Describe qué quieres cambiar en tu app…";
+  $$("#ptabs button").forEach(b=>b.classList.toggle("on",b.dataset.t===(technical?"code":"app")));
+  renderApp();
+}
+$$(".build-mode button").forEach(b=>b.addEventListener("click",()=>setBuildMode(b.dataset.build)));
 const GU=[["Seguridad","ok","Sin hallazgos"],["Tests","ok","12 / 12"],["Costo","ok","USD 18 / 150"],["Datos","ok","Solo prueba"],["Graduación","warn","45%"]];
 function guard(){const g=GU.map(x=>x.slice());if(lvl>=3)g[1][2]="15 / 15";if(lvl>=4){g[2][2]="USD 26 / 150";g[4][2]="60%"}
   $("#guard").innerHTML=g.map(x=>`<div class="card g"><small>${x[0]}</small><b class="${x[1]}">${x[1]==="ok"?"●":"◐"} ${x[2]}</b></div>`).join("")}
@@ -497,7 +528,7 @@ function doSend(){const v=$("#cin").value.trim();if(!v)return;addMsg("u",v);$("#
   setTimeout(()=>{if(turn<TURNS.length){addMsg("a",T.a);lvl=T.lvl;turn++}else addMsg("a","Entendido. Lo agregué al prototipo. Recuerda que ATLAS revisará seguridad, tests y costos antes de graduarlo.");renderApp();guard();sugg()},700)}
 $("#send").addEventListener("click",doSend);$("#cin").addEventListener("keydown",e=>{if(e.key==="Enter")doSend()});
 function resetWs(){turn=0;lvl=1;$("#msgs").innerHTML="";const idea=$("#idea").value;
-  addMsg("u",idea);addMsg("a","Valeria, esta primera versión simulada usa el template <b>Web + datos</b>: <b>PostgreSQL</b> para los registros de la app y <b>Fabric</b> para analítica y datos compartidos. Solo hay datos de ejemplo; el acceso corporativo y las integraciones son parte de la propuesta, no conexiones reales. ¿Qué quieres ajustar?");renderApp();guard();sugg()}
+  addMsg("u",idea);addMsg("a","Valeria, puedes construir este ejemplo conversando, seas de negocio o de desarrollo, y pasar al detalle técnico cuando lo necesites. El template <b>Web + datos</b> propone <b>PostgreSQL</b> para los registros de la app y <b>Fabric</b> para analítica y datos compartidos. La demo recorre tres ajustes predefinidos; no genera aplicaciones arbitrarias ni conecta sistemas reales. ¿Qué quieres ajustar?");setBuildMode(buildMode);guard();sugg()}
 $("#share").addEventListener("click",()=>toast("Simulación: compartir con usuarios piloto. No se envió ningún enlace."));
 $("#toGrad").addEventListener("click",()=>show("grad"));
 resetWs();
